@@ -1,4 +1,4 @@
-![generated-image](https://github.com/user-attachments/assets/225e7c53-5877-450e-b788-279cc3209578)# drug-interaction-rag-api 
+# drug-interaction-rag-api 
 research on drug interactions 💊
 
 Study of how drug–drug interactions and individual genetic profiles jointly influence drug metabolism,
