@@ -59,3 +59,60 @@ ALGORITHM AnalyzeDrugInteractionsWithGenetics
         RETURN interaction_report, medication_recommendations
     END
 ```
+
+## 🧰 Tech Stack
+
+### Core Architecture
+- **Pattern:** Retrieval-Augmented Generation (RAG)
+- **Goal:** Analyze drug–drug interactions and pharmacogenomic effects
+  based on patient medication lists and genetic variant data.
+
+### Model & Inference
+
+- **LLM (Generation)**
+  - **Model:** BioMistral 7B (medical-domain LLM)
+  - **Variant:** Quantized (e.g., 4-bit) for CPU-only inference
+  - **Rationale:** Optimized for biomedical text; small enough to run on a
+    CPU-only laptop while still providing clinically relevant reasoning.
+
+- **Embedding Model (Retrieval)**
+  - **Model:** Lightweight, open-source sentence embedding model
+    (e.g., `BAAI/bge-small-en` or similar)
+  - **Use:** Create vector embeddings for:
+    - Drug information documents (mechanism, PK, DDIs, etc.)
+    - Pharmacogenomic / genetic reference documents
+  - **Rationale:** Smaller footprint and faster CPU inference while
+    maintaining good retrieval quality for RAG.
+
+### Vector Store
+
+- **Vector Database:** ChromaDB
+  - **Deployment:** Local, file-based
+  - **Use Cases:**
+    - Store embeddings for drug documents
+    - Store embeddings for genetic / pharmacogenomic documents
+    - Perform k‑NN similarity search during RAG
+  - **Rationale:** Simple to integrate with Python, no external server
+    required, ideal for a personal research project.
+
+### API Layer
+
+- **Framework:** FastAPI (Python)
+  - **Endpoints:**
+    - `POST /analyze` — accept medications + genotype + question,
+      run RAG pipeline, return interaction summary and recommendations.
+  - **Role:** Orchestrate:
+    1. Input validation & normalization
+    2. Retrieval from Chroma
+    3. Prompt construction
+    4. LLM (BioMistral 7B) call and response formatting
+
+### Runtime Environment
+
+- **Hardware:** CPU-only laptop (no CUDA / GPU)
+- **OS / Host:** Local development environment
+- **Optimization:**
+  - Quantized LLM weights
+  - Lightweight embedding model
+  - Limited context size and efficient chunking to keep latency acceptable.
+
