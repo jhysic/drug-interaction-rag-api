@@ -1,0 +1,27 @@
+# API server
+fastapi
+uvicorn[standard]
+
+# RAG & models
+chromadb
+sentence-transformers
+transformers
+accelerate
+einops
+llama-cpp-python
+
+# Utilities
+pydantic
+python-dotenv
+numpy
+pandas
+
+# HTTP client
+requests
+
+# Frontend
+streamlit
+
+# (optional) testing
+pytest
+httpx
